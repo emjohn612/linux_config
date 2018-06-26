@@ -1,10 +1,10 @@
 # Linux Configuration
-Current Site:
+Current Site: http://ec2-35-172-119-117.compute-1.amazonaws.com
 
 ## Step 1
 ### Create Lightsail instance
-* download private key from Lightsail
-* change permissions of private key: chmod 600 LightsailDefaultPrivateKey-us-east-1.pem
+* Download private key from Lightsail
+* Change permissions of private key: chmod 600 LightsailDefaultPrivateKey-us-east-1.pem
 * ssh into Lightsail server: sudo ssh -i LightsailDefaultPrivatekey-us-east-1.pem unbuntu@35.172.119.117
 
 ### Add ports to Lightsail
@@ -21,10 +21,10 @@ Current Site:
 * sudo sevice ssh restart
 
 ### Update UFW
-* allow 2200/TCP
-* allow 80/TCP
-* allow 123/UDP
-* turn on ufw: sudo ufw enable
+* Allow 2200/TCP
+* Allow 80/TCP
+* Allow 123/UDP
+* Turn on ufw: sudo ufw enable
 
 ### Configure local timezone to UTC
 * sudo dpkg-reconfigure tzdata
@@ -33,7 +33,7 @@ Current Site:
 ### Add Grader User
 * get to root: sudo su-
 * sudo adduser grader
-* give sudo status: sudo nano /etc/sudoers.d/grader, and type grader ALL=(ALL:ALL) ALL
+* Give sudo status: sudo nano /etc/sudoers.d/grader, and type grader ALL=(ALL:ALL) ALL
 
 ### Create key pair
 * Create a file with the name authorized_keys inside the .ssh directory: sudo touch /.ssh/authorized_keys
@@ -55,12 +55,12 @@ Current Site:
 
 ## Step 4
 ### Clone catalog app to Apache2
-* create new directory FlaskApp
-* clone catalog app from github as FlaskApp in the FlaskApp directory
-* rename project.py to __init__.py
+* Create new directory FlaskApp
+* Clone catalog app from github as FlaskApp in the FlaskApp directory
+* Rename project.py to __init__.py
 
 ## Change path of all client_secrets.json in __init__.py file
-* change path to: /var/www/FlaskApp/FlaskApp/client_secrets.json
+* Change path to: /var/www/FlaskApp/FlaskApp/client_secrets.json
 
 ## Setup database
 * Install PostgreSQL
@@ -96,4 +96,23 @@ Current Site:
       LogLevel warn  
       CustomLog ${APACHE_LOG_DIR}/access.log combined  
 </VirtualHost> `
-*
+* Disable default virtual host
+* Enable new virtual host
+* Create wsgi file: /var/www/FlaskApp/flaskapp.wsgi : `#!/usr/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/FlaskApp/")
+
+from FlaskApp import app as application
+if __name__ == '__main__':
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.run(host='0.0.0.0', port=8000)
+application.secret_key = 'super_secret_key'`
+
+### Update Third-party OAuth credentials
+* Change javascript origins and redirect URIs
+* Modify client_secrets.json files on server
+
+### Update Apache Server
+* sudo service apache2 restart
