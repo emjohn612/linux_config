@@ -116,3 +116,7 @@ application.secret_key = 'super_secret_key'`
 
 ### Update Apache Server
 * sudo service apache2 restart
+
+### Resources
+* Amazon Lightsail documentation
+* Udacity Forums
