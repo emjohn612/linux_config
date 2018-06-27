@@ -1,5 +1,19 @@
 # Linux Configuration
+This project contains a database consisting of various categories. This documentation takes you through on how I implemented this website to be hosted on a Ubuntu Linux-based using Amazon Lightsail.
+
+## What was used?
+* Web browser
+* Python
+* PostgreSQL
+* Flask
+* Amazon AWS Lightsail
+* Ubuntu
+* Virtual Box
+* Vagrant
+* Git
+
 Current Site: http://ec2-35-172-119-117.compute-1.amazonaws.com
+IP address: 35.172.119.117
 
 ## Step 1
 ### Create Lightsail instance
@@ -118,5 +132,6 @@ application.secret_key = 'super_secret_key'`
 * sudo service apache2 restart
 
 ### Resources
+* [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)
 * Amazon Lightsail documentation
 * Udacity Forums
